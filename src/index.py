@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*
 
-
 from modules import logger
 from modules import setLevel
 from modules import subscribe
@@ -94,73 +93,24 @@ def main():
                         command = payload['command']
 
                         if command == 'status':
-                            settings = read_config()
-                            logger.info("settings: [%s]", settings)
 
-                            found = glob.glob(f"{HOME}/.pm2/pids/hackrf-control-*")
-                            status = 'stopped'
-                            uptime = None
-
-                            if found:
-                                status = 'online'
-
-                                with open(found[0]) as fd:
-                                    pid = fd.read()
-
-                                out = subprocess.check_output(f"stat /proc/{pid} | grep Modify", shell=True, encoding="utf-8")
-                                res = pattern.findall(out)
-
-                                uptime = res[0] if res else None
+                            logger.debug("GETTING SENSORS DATA")
+                  
+                            out = subprocess.check_output(f"sensors", shell=True, encoding="utf-8")
 
                             emit(topic_res, {
-                                'id': payload['id'], 
-                                'settings': settings,
-                                'process': {
-                                    'status': status,
-                                    'uptime': uptime
+                                'id': payload['id'],                            
+                                'status':'OK',
+                                'data':{
+                                    'temp':67
                                 }
                             })
 
-                        elif command == 'logs':
-
-                            lines = payload.get('lines', 10)
-                            out = subprocess.check_output(f"tail {HOME}/.pm2/logs/hackrf-control-error.log -n {lines}", shell=True, encoding="utf-8")
+  
                             
-                            data = []
-
-                            for x in out.split('\n'):
-                                
-                                created_at = x[0:23]
-
-                                pos = x.find(" ", 24)
-                                level = x[23:pos]
-
-                                pos = x.find(" ", pos+1)
-                                content = x[pos:]
-
-                                data.append({'created_at': created_at, 'level': level, 'content': content})
-
-                            emit(topic_res, {
-                                'id': payload['id'], 
-                                'data': data
-                            })
-
-                        elif command == 'config':
-
-                            if 'settings' not in payload:
-                                raise Exception("settings is not present")
-                            
-                            settings = payload['settings']
-                            settings['_waveform'] = 'waveform' in settings
-
-                            logger.info("settings: [%s]", settings)
-                            save_config(settings)
-
-                            emit(topic_res, {'id': payload['id']})
-
                         else:
                             emit(topic_res, {'id': payload['id']})
-                   
+
                     except Exception as ex:
                         logger.warning("%s", payload)
                         logger.error(ex)
