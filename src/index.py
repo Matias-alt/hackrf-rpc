@@ -124,7 +124,8 @@ def main():
                                 }
                             })
 
-                            replace_line('src/config.py', 9, "'temp':90}")
+                            newTemp = payload['temp'] 
+                            replace_line('src/config.py', 9, "'temp':" + newTemp + "}")
 
                             
 
