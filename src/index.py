@@ -94,9 +94,23 @@ def main():
 
                         if command == 'status':
 
-                            logger.debug("GETTING SENSORS DATA")
-                  
-                            out = subprocess.check_output(f"sensors", shell=True, encoding="utf-8")
+                            logger.debug("Getting sensors data")
+
+                            found = glob.glob(f"{HOME}/.pm2/pids/hackrf-control-*")
+                            status = 'stopped'
+                            uptime = None
+
+                            if found:
+                                status = 'online'
+
+                                with open(found[0]) as fd:
+                                    pid = fd.read()
+
+                                out = subprocess.check_output(f"stat /proc/{pid} | grep Modify", shell=True, encoding="utf-8")
+                                res = pattern.findall(out)
+
+                                uptime = res[0] if res else None
+
 
                             emit(topic_res, {
                                 'id': payload['id'],                            
