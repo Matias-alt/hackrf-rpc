@@ -124,7 +124,7 @@ def main():
                                 }
                             })
 
-                            #replace_line('config.py', 9, "'temp':90}")
+                            replace_line('src/config.py', 9, "'temp':90}")
 
                             
 
