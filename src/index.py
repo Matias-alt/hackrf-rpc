@@ -10,7 +10,8 @@ from modules import save_config
 from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
-from config import UMBRAL_TEMP
+from config import *
+from io import open
 
 import subprocess
 import argparse
@@ -20,6 +21,8 @@ import glob
 import sys
 import os
 import re
+
+
 
 ##
 #
@@ -121,8 +124,11 @@ def main():
                                 }
                             })
 
+                            replace_line('config.py', 9, "'temp':90}")
 
-                            UMBRAL_TEMP["temp"] = 90
+                            
+
+
 
   
                             
