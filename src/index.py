@@ -122,7 +122,7 @@ def main():
                             })
 
 
-                            #UMBRAL_TEMP["temp"] = emit['data']['temp']
+                            UMBRAL_TEMP["temp"] = 90
 
   
                             
