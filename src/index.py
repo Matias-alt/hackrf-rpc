@@ -10,6 +10,7 @@ from modules import save_config
 from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
+from config import UMBRAL_TEMP
 
 import subprocess
 import argparse
@@ -116,9 +117,12 @@ def main():
                                 'id': payload['id'],                            
                                 'status':'OK',
                                 'data':{
-                                    'temp':67
+                                    'temp':payload['temp']
                                 }
                             })
+
+
+                            #UMBRAL_TEMP["temp"] = emit['data']['temp']
 
   
                             
