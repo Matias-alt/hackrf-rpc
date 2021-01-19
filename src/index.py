@@ -100,19 +100,6 @@ def main():
 
                             logger.debug("Getting sensors data")
 
-                            emit(topic_res, {
-                                'id': payload['id'],                            
-                                'status':'Data sensors found',
-                                'data':{
-                                    'temp':payload['temp']
-                                }
-                            })
-                                                      
-
-                        elif command == 'config':
-
-                            logger.debug("Changing umbral temperature")
-
                             found = glob.glob(f"{HOME}/.pm2/pids/hackrf-control-*")
                             status = 'stopped'
                             uptime = None
@@ -128,18 +115,17 @@ def main():
 
                                 uptime = res[0] if res else None
 
-                            
+                            emit(topic_res, {
+                                'id': payload['id'],                            
+                                'status':'Data sensors found',
+                                'data':{
+                                    'temp':payload['temp']
+                                }
+                            })
 
                             newTemp = str(payload['temp']) 
                             replace_line('src/config.py', 9, "'temp':" + newTemp + "}")
 
-                            emit(topic_res, {
-                                'id': payload['id'],                            
-                                'status':'Temperature changed',
-                                'data':{
-                                    'new_temp':payload['temp']
-                                }
-                            })
 
                         else:
                             emit(topic_res, {'id': payload['id']})
