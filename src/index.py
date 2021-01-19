@@ -127,6 +127,16 @@ def main():
                             replace_line('src/config.py', 9, "'temp':" + newTemp + "}")
 
 
+                        if command == 'config':
+                            emit(topic_res, {
+                                'id': payload['id'],                            
+                                'status':'desde config',
+                                'data':{
+                                    'temp':payload['temp']
+                                }
+                            })
+
+
                         else:
                             emit(topic_res, {'id': payload['id']})
 
