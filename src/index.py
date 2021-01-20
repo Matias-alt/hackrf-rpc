@@ -10,6 +10,8 @@ from modules import save_config
 from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
+
+
 from config import *
 from io import open
 
@@ -33,25 +35,10 @@ def signal_handle(signum, frame):
 ##
 #
 
-def createJSON():
-
-    data = {}
-    data['clients'] = []
-
-    data['clients'].append({
-        'first_name': 75,
-        })
-
-    with open('data.json', 'w') as file:
-        json.dump(data, file, indent=4)
-
-##
-#
 
 def main():
-
-    createJSON()
-
+ 
+    read_config()
     signal.signal(signal.SIGINT,  signal_handle)
     signal.signal(signal.SIGTERM, signal_handle)
 
