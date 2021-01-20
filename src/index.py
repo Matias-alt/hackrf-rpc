@@ -101,7 +101,12 @@ def main():
 
                         if command == 'config':
 
-                            logger.debug("Getting sensors data")
+                            logger.debug("Config Temperature %s", {
+                                'id': payload['id'],                            
+                                'status':'Config max temperature',
+                                'data':{
+                                    'temp':payload['temp']
+                            }})
 
                             found = glob.glob(f"{HOME}/.pm2/pids/hackrf-control-*")
                             status = 'stopped'
@@ -130,6 +135,12 @@ def main():
                             updateTemperature('.local/config/hackrf-sensors.json', 0, '{"temp_max":' + newTemp + "}")
 
                         if command == 'status':
+                            
+
+                            #INTEGRAR PROCESO QUE OBTIENE T° DE LA MAQUINA
+                            # Y PASARLO COMO VARIABLE A EMIT(TOPIC_RES)
+
+
 
                             logger.debug("Getting sensors data")
 
