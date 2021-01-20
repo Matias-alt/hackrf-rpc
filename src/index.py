@@ -117,8 +117,20 @@ def main():
                                 }
                             })
 
-                            newTemp = str(payload['temp']) 
-                            updateTemperature('.local/config/hackrf-sensors.json', 0, '{"temp_max":' + newTemp + "}")
+                            try:
+                                newTemp = str(payload['temp']) 
+                                data = {"temp_max": newTemp}
+
+                                save_config(data)
+                                #updateTemperature('.local/config/hackrf-sensors.json', 0, '{"temp_max":' + newTemp + "}")
+
+                            except Exception as ex:
+                                logger.warning("%s", payload)
+                                logger.error(ex)
+
+                                emit(topic_res, {'id': payload['id'], 'error': ex})
+                            
+                            
 
                         elif command == 'status':
                             
