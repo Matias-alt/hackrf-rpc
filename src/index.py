@@ -36,6 +36,8 @@ def signal_handle(signum, frame):
 
 def main():
 
+    save_config()
+
     signal.signal(signal.SIGINT,  signal_handle)
     signal.signal(signal.SIGTERM, signal_handle)
 
@@ -76,7 +78,7 @@ def main():
     HOME = os.getenv("HOME")
 
     pattern = re.compile(r'^Modify: (.*)\n')
-
+   
     while True:
 
         now = datetime.now()
