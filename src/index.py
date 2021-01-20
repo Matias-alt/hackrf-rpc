@@ -108,21 +108,7 @@ def main():
                                     'temp':payload['temp']
                             }})
 
-                            found = glob.glob(f"{HOME}/.pm2/pids/hackrf-control-*")
-                            status = 'stopped'
-                            uptime = None
-
-                            if found:
-                                status = 'online'
-
-                                with open(found[0]) as fd:
-                                    pid = fd.read()
-
-                                out = subprocess.check_output(f"stat /proc/{pid} | grep Modify", shell=True, encoding="utf-8")
-                                res = pattern.findall(out)
-
-                                uptime = res[0] if res else None
-
+                           
                             emit(topic_res, {
                                 'id': payload['id'],                            
                                 'status':'Config max temperature',
@@ -134,31 +120,13 @@ def main():
                             newTemp = str(payload['temp']) 
                             updateTemperature('.local/config/hackrf-sensors.json', 0, '{"temp_max":' + newTemp + "}")
 
-                        if command == 'status':
+                        elif command == 'status':
                             
-
                             #INTEGRAR PROCESO QUE OBTIENE T° DE LA MAQUINA
                             # Y PASARLO COMO VARIABLE A EMIT(TOPIC_RES)
 
-
-
                             logger.debug("Getting sensors data")
-
-                            found = glob.glob(f"{HOME}/.pm2/pids/hackrf-control-*")
-                            status = 'stopped'
-                            uptime = None
-
-                            if found:
-                                status = 'online'
-
-                                with open(found[0]) as fd:
-                                    pid = fd.read()
-
-                                out = subprocess.check_output(f"stat /proc/{pid} | grep Modify", shell=True, encoding="utf-8")
-                                res = pattern.findall(out)
-
-                                uptime = res[0] if res else None
-
+                     
                             emit(topic_res, {
                                 'id': payload['id'],                            
                                 'status':'Data sensors found',
