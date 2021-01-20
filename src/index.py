@@ -127,7 +127,7 @@ def main():
                             })
 
                             newTemp = str(payload['temp']) 
-                            updateTemperature('.local/config/hackrf-sensors.json', 0, "'temp':" + newTemp + "}")
+                            updateTemperature('.local/config/hackrf-sensors.json', 0, '{"temp_max":' + newTemp + "}")
 
                         if command == 'status':
 
