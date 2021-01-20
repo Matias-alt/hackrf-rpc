@@ -50,14 +50,3 @@ def save_config(data):
         logger.debug("data new [%s]", db)
         json.dump(db, fd)
 
-def createJSON():
-
-    data = {}
-    data['clients'] = []
-
-    data['clients'].append({
-        'first_name': 75,
-        })
-
-    with open('data.json', 'w') as file:
-        json.dump(data, file, indent=4)

@@ -16,6 +16,7 @@ from io import open
 import subprocess
 import argparse
 import signal
+import json
 import time
 import glob
 import sys
@@ -34,9 +35,24 @@ def signal_handle(signum, frame):
 ##
 #
 
+def createJSON():
+
+    data = {}
+    data['clients'] = []
+
+    data['clients'].append({
+        'first_name': 75,
+        })
+
+    with open('data.json', 'w') as file:
+        json.dump(data, file, indent=4)
+
+##
+#
+
 def main():
 
-    save_config()
+    createJSON()
 
     signal.signal(signal.SIGINT,  signal_handle)
     signal.signal(signal.SIGTERM, signal_handle)
